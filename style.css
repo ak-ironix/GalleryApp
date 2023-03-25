@@ -1,3 +1,4 @@
+/* Properties for HTML and Body */
 * {
 	box-sizing: border-box;
 	padding: 0;
@@ -11,12 +12,15 @@ body {
 	font-family: "Roboto", sans-serif;
 	background-color: #131313;
 }
+
+/* Header */
 h1 {
 	margin-top: 10px;
 	margin-left: 10px;
 	text-align: left;
 	color: aliceblue;
 }
+
 /* Making a grid to hold all the images */
 #card-container {
 	margin: 30px 120px 10px 120px;
@@ -24,31 +28,34 @@ h1 {
 	justify-content: center;
 	grid-template-columns: repeat(auto-fit, 300px);
 	grid-template-rows: repeat(auto-fit, 300px);
-	gap: 30px;
+	gap: 10px;
 }
 
+/* Properties for each card/image in the gallery */
 .card {
 	height: 300px;
 	width: 300px;
 	object-fit: cover;
-	border-radius: 5px;
+	border-radius: 10px;
 	transition: all 200ms ease-in-out;
 }
-/* Simple hover animation for the images */
+
 .card:hover {
 	transition: all 300ms ease-in-out;
 	box-shadow: 0 4px 10px rgba(255, 255, 255, 0.171);
 	scale: 1.1;
 	cursor: pointer;
 }
+
+/* Card actions tells the number of images loaded and total images */
 .card-actions {
 	margin: 8px;
 	padding: 16px 0;
-
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 }
+
 /* Making the loading animation while new images are fetched asynchronously */
 #loading {
 	margin: auto;
@@ -87,13 +94,16 @@ h1 {
 		transform: translateY(0);
 	}
 }
-
+/* Some users keep reduced animations on hence for them */
 @media screen and (prefers-reduced-motion: reduce) {
 	.ball::after {
 		animation: none;
 	}
 }
 
+/* Lightbox is the "click to expand" for images */
+
+/* lightbox handles the overlay */
 .lightbox {
 	position: fixed;
 	display: none;
@@ -104,12 +114,15 @@ h1 {
 	top: 0;
 	left: 0;
 }
+/* content handles the positioning */
 .lightbox-content {
 	position: relative;
 	width: 70%;
 	height: 70%;
 	margin: 5% auto;
 }
+
+/* Properties for the image being shown inside lightbox-content */
 .lightbox-content img {
 	border-radius: 7px;
 	box-shadow: 0 0 3px 0 rgba(225, 225, 225, 0.25);
@@ -118,6 +131,8 @@ h1 {
 	object-fit: cover;
 	transition: all 0.2s ease-in-out;
 }
+
+/* Arrow buttons for moving across images while in lighbox mode */
 .lightbox-prev,
 .lightbox-next {
 	position: absolute;

@@ -5,7 +5,7 @@ const cardTotalElem = document.getElementById("card-total");
 const loader = document.getElementById("loading");
 
 // cardLimit tells total images to be fetched and cardIncrease tells total images to be shown before end of page is reached
-const cardLimit = 50;
+const cardLimit = 100;
 const cardIncrease = 8;
 const pageCount = Math.ceil(cardLimit / cardIncrease);
 let currentPage = 1;
@@ -53,7 +53,7 @@ const createCard = (index) => {
     const card = document.createElement("img");
     card.className = "card";
     card.setAttribute('data-index', index - 1);
-    card.src = "https://picsum.photos/1920/1080?random=" + index;
+    card.src = "https://picsum.photos/1280/720?random=" + index;
     card.addEventListener("click", currentImage);
     cardContainer.appendChild(card);
 };
@@ -115,7 +115,6 @@ function showLightBox(n) {
         }
     }
     const currElement = '[data-index="' + (index) + '"]';
-    console.log(currElement)
     document.querySelector(currElement).scrollIntoView();
     lightBoxImg.style.opacity = '0';
     lightBoxImg.style.visibility = 'hidden';
@@ -160,7 +159,6 @@ lightBoxContainer.addEventListener("click", (e) => {
 
 // Adding keyboard functionality to move between images
 document.addEventListener('keydown', (event) => {
-    console.log(event.code);
     if (event.code === 'ArrowLeft' || event.code === 'ArrowUp') {
         prevImage();
     }
