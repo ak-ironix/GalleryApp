@@ -18,21 +18,28 @@ const lightBoxContent = document.createElement("div");
 const lightBoxImg = document.createElement("img");
 const lightBoxPrev = document.createElement("div");
 const lightBoxNext = document.createElement("div");
+const lightBoxRotate = document.createElement("div");
+const lightBoxDownload = document.createElement("div");
 
 // setting necessary heirarchy of divs and giving class names
 lightBoxContainer.classList.add("lightbox");
 lightBoxContent.classList.add("lightbox-content");
-lightBoxPrev.classList.add("fa", "fa-angle-left", "lightbox-prev");
-lightBoxNext.classList.add("fa", "fa-angle-right", "lightbox-next");
+lightBoxPrev.classList.add("lightbox-prev");
+lightBoxNext.classList.add("lightbox-next");
+lightBoxRotate.classList.add("lightbox-rotate");
+lightBoxDownload.classList.add("lightbox-download");
 
 lightBoxContainer.appendChild(lightBoxContent);
 lightBoxContent.appendChild(lightBoxImg);
 lightBoxContent.appendChild(lightBoxPrev);
 lightBoxContent.appendChild(lightBoxNext);
+lightBoxContent.appendChild(lightBoxRotate);
+lightBoxContent.appendChild(lightBoxDownload);
 
-lightBoxNext.innerHTML = '>';
-lightBoxPrev.innerHTML = '<';
-
+lightBoxNext.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/> </svg >';
+lightBoxPrev.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/> </svg>';
+lightBoxRotate.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16"> <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/> <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/> </svg>';
+lightBoxDownload.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16"> <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/> <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/> </svg>'
 // adding the lightbox container to the document
 
 document.body.appendChild(lightBoxContainer);
@@ -47,7 +54,8 @@ const createCard = (index) => {
     const card = document.createElement("img");
     card.className = "card";
     card.setAttribute('data-index', index - 1);
-    card.src = "https://picsum.photos/1280/720?random=" + index;
+    let x = Math.random() * 100;
+    card.src = "https://picsum.photos/seed/" + index * x + "/900/900/";
     card.addEventListener("click", currentImage);
     cardContainer.appendChild(card);
 };
@@ -109,6 +117,8 @@ const throttle = (callback, time) => {
 let index = 0;
 
 function showLightBox(n) {
+    lightBoxImg.style.transform = "rotate(0deg)";
+    rotations = 0;
     if (n > cardContainer.children.length) {
         if (n > cardLimit) {
             index = 0;
@@ -140,6 +150,7 @@ function showLightBox(n) {
 function currentImage() {                                                   //Gets the index of the current image being shown in lightbox
     lightBoxContainer.style.display = "block";
     const imageIndex = parseInt(this.getAttribute("data-index"));
+    lightBoxImg.style.transform = "rotate(0deg)";
     showLightBox(index = imageIndex);
 }
 function slideImage(n) {
@@ -151,11 +162,32 @@ function prevImage() {
 function nextImage() {
     slideImage(1);
 }
+let rotations = 0;
+function rotateImage() {
+    rotations += 1;
+    const degrees = rotations * 90;
+    lightBoxImg.style.transform = "rotate(" + degrees + "deg)";
+}
+async function downloadImage() {
+    const imageSrc = lightBoxImg.getAttribute("src");
 
+    const image = await fetch(imageSrc)
+    const imageBlog = await image.blob()
+    const imageURL = URL.createObjectURL(imageBlog)
+
+    const link = document.createElement('a')
+    link.href = imageURL
+    link.download = 'image ' + index;
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+}
 
 // event Listeners
 lightBoxPrev.addEventListener("click", prevImage);          //arrow buttons functionality
 lightBoxNext.addEventListener("click", nextImage);
+lightBoxRotate.addEventListener("click", rotateImage);
+lightBoxDownload.addEventListener("click", downloadImage);
 
 window.addEventListener("scroll", handleInfiniteScroll);    //Event listener for scrolling
 
