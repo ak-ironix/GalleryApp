@@ -1,0 +1,140 @@
+* {
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+	scroll-behavior: smooth;
+}
+body {
+	min-width: 100%;
+	height: 100%;
+	font: white;
+	font-family: "Roboto", sans-serif;
+	background-color: #131313;
+}
+h1 {
+	margin-top: 10px;
+	margin-left: 10px;
+	text-align: left;
+	color: aliceblue;
+}
+/* Making a grid to hold all the images */
+#card-container {
+	margin: 30px 120px 10px 120px;
+	display: grid;
+	justify-content: center;
+	grid-template-columns: repeat(auto-fit, 300px);
+	grid-template-rows: repeat(auto-fit, 300px);
+	gap: 30px;
+}
+
+.card {
+	height: 300px;
+	width: 300px;
+	object-fit: cover;
+	border-radius: 5px;
+	transition: all 200ms ease-in-out;
+}
+/* Simple hover animation for the images */
+.card:hover {
+	transition: all 300ms ease-in-out;
+	box-shadow: 0 4px 10px rgba(255, 255, 255, 0.171);
+	scale: 1.1;
+	cursor: pointer;
+}
+.card-actions {
+	margin: 8px;
+	padding: 16px 0;
+
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+/* Making the loading animation while new images are fetched asynchronously */
+#loading {
+	margin: auto;
+	margin-top: 60px;
+	width: 50%;
+	margin-bottom: 30px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	visibility: hidden;
+}
+.ball {
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	background: rgb(255, 255, 255);
+	margin: 0 10px;
+}
+.first {
+	animation: slide 2s ease-in-out infinite;
+	animation-delay: 0.1s;
+}
+.second {
+	animation: slide 2s ease-in-out infinite;
+	animation-delay: 0.5s;
+}
+.third {
+	animation: slide 2s ease-in-out infinite;
+	animation-delay: 1s;
+}
+@keyframes slide {
+	from {
+		transform: translateY(-30px);
+	}
+	to {
+		transform: translateY(0);
+	}
+}
+
+@media screen and (prefers-reduced-motion: reduce) {
+	.ball::after {
+		animation: none;
+	}
+}
+
+.lightbox {
+	position: fixed;
+	display: none;
+	background-color: rgba(0, 0, 0, 0.8);
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	top: 0;
+	left: 0;
+}
+.lightbox-content {
+	position: relative;
+	width: 70%;
+	height: 70%;
+	margin: 5% auto;
+}
+.lightbox-content img {
+	border-radius: 7px;
+	box-shadow: 0 0 3px 0 rgba(225, 225, 225, 0.25);
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition: all 0.2s ease-in-out;
+}
+.lightbox-prev,
+.lightbox-next {
+	position: absolute;
+	background-color: rgba(255, 255, 255, 0.8);
+	color: #000000;
+	padding: 30px;
+	top: 45%;
+	opacity: 0.7;
+	cursor: pointer;
+}
+.lightbox-prev {
+	left: 0;
+}
+.lightbox-next {
+	right: 0;
+}
+.lightbox-prev:hover,
+.lightbox-next:hover {
+	opacity: 0.5;
+}

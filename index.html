@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="style.css" />
+		<title>Gallery</title>
+	</head>
+	<body>
+		<h1>Gallery App</h1>
+		<!-- Card container which contains all the img elements which are added using JS -->
+		<div id="card-container"></div>
+
+		<!-- Loading animation elements which is shown while images are fetched asynchronously -->
+		<div id="loading">
+			<div class="ball first"></div>
+			<div class="ball second"></div>
+			<div class="ball third"></div>
+		</div>
+		<!-- Text showing current shown images and total images -->
+		<div class="card-actions" style="color: aliceblue">
+			<span
+				>Showing <span id="card-count"></span> of
+				<span id="card-total"></span> cards
+			</span>
+		</div>
+	</body>
+	<script src="app.js"></script>
+</html>
